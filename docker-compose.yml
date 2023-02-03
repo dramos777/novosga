@@ -1,0 +1,75 @@
+version: "3.9"
+services:
+  db:
+    image: mariadb
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /etc/timezone:/etc/timezone:ro
+    - ./var/lib/mysql:/var/lib/mysql
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1024M
+    env_file:
+    - ./env_vars/.env_db_mysql
+    environment:
+      TZ: 'America/Sao_Paulo'
+    secrets:
+    - MYSQL_USER
+    - MYSQL_PASSWORD
+    - MYSQL_ROOT_PASSWORD
+    networks:
+    - network
+  app:
+    depends_on:
+    - db
+    image: dramos777/novosga:1.0
+    ports:
+    - "80:80"
+    - "443:443" 
+    environment:
+      APP_ENV: 'prod'
+      DATABASE_HOST: 192.168.100.100
+      DATABASE_NAME: novosga
+      DATABASE_USER: novosga
+      DATABASE_PASSWORD: 123456
+      DATABASE_PORT: 3306
+      DATABASE_SGDB: mysql
+      NOVOSGA_ADMIN_USERNAME: 'admin'
+      NOVOSGA_ADMIN_PASSWORD: '123456'
+      NOVOSGA_ADMIN_FIRSTNAME: 'Administrator'
+      NOVOSGA_ADMIN_LASTNAME: 'Global'
+      # default unity
+      NOVOSGA_UNITY_NAME: 'My Unity'
+      NOVOSGA_UNITY_CODE: 'U01'
+      # default no-priority
+      NOVOSGA_NOPRIORITY_NAME: 'Normal'
+      NOVOSGA_NOPRIORITY_DESCRIPTION: 'Normal service'
+      # default priority
+      NOVOSGA_PRIORITY_NAME: 'Priority'
+      NOVOSGA_PRIORITY_DESCRIPTION: 'Priority service'
+      # default place
+      NOVOSGA_PLACE_NAME: 'Box'
+      # Set TimeZone and locale
+      TZ: 'America/Sao_Paulo'
+      LANGUAGE: 'pt_BR'
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /etc/timezone:/etc/timezone:ro
+    - ./modules/triage-app-1.4.0:/var/www/html/public/triagem:rw
+    - ./modules/panel-app-1.3.0:/var/www/html/public/painel:rw
+    networks:
+    - network
+networks:
+  network:
+secrets:
+  MYSQL_USER:
+    file: ./env_vars/.MYSQL_USER
+  MYSQL_PASSWORD:
+    file: ./env_vars/.MYSQL_PASSWORD
+  MYSQL_ROOT_USER:
+    file: ./env_vars/.MYSQL_ROOT_USER
+  MYSQL_ROOT_PASSWORD:
+    file: ./env_vars/.MYSQL_ROOT_PASSWORD
