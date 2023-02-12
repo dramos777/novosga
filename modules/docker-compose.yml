@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  modules:
+    image: nginx:1.23.3-alpine-slim
+    ports:
+    - "8081:80"
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /etc/timezone:/etc/timezone:ro
+    - ./triagem:/usr/share/nginx/html/triagem:rw
+    - ./paineltv:/usr/share/nginx/html/paineltv:rw
+    - ./paineltouch:/usr/share/nginx/html/paineltouch:rw
+    networks:
+    - network
+networks:
+  network:
