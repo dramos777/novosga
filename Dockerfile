@@ -2,7 +2,7 @@ FROM novosga/novosga:1.x
 
 LABEL MANTAINER=emanuel.dramos2@gmail.com
 
-ENV VERSION=1.5.1 \
+ENV NOVOSGA_VERSION=1.5.1 \
     TZ="UTC" \
     DATABASE_HOST=192.168.0.91 \
     DATABASE_NAME="novosga" \
@@ -25,4 +25,5 @@ RUN apt-get update \
 	libldap-2.4-2 \
     && ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
     && docker-php-ext-install ldap \
-    && docker-php-ext-configure ldap
+    && docker-php-ext-configure ldap \
+    && chown -R www-data:www-data /var/www/html
