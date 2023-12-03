@@ -15,7 +15,7 @@ services:
     env_file:
     - ./env_vars/.env_db_mysql
     environment:
-      TZ: 'America/Sao_Paulo'
+      TZ: 'America/Fortaleza'
     secrets:
     - MYSQL_USER
     - MYSQL_PASSWORD
@@ -35,7 +35,7 @@ services:
       DATABASE_HOST: 192.168.0.91
       DATABASE_NAME: novosga
       DATABASE_USER: novosga
-      DATABASE_PASSWORD: 1ri2020ir1
+      DATABASE_PASSWORD: novosga
       DATABASE_PORT: 3306
       DATABASE_SGDB: mysql
       NOVOSGA_ADMIN_USERNAME: 'admin'
