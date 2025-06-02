@@ -1,0 +1,11 @@
+# Corrigir problema de geração de relatorio e resete de senha
+
+1. acessar o mysql
+2. acessar o banco
+3. pegar o ultimo ID inserido na tabela historico_atendimentos
+  SELECT MAX(id) FROM historico_atendimentos;
+
+4. Corrigir tabelas atendimentos e atendimentos_codificados
+  UPDATE atendimentos SET id = <max_historico_id> + id; UPDATE atend_codif SET a tendimento_id = <max_historico_id> + atendimento_id;
+
+5. Finalizado. Basta testar a app pela interface
